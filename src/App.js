@@ -19,15 +19,19 @@ function App() {
     fetchData();
   }, [length]);
 
+  /*
+  useEffect(() => {
+    console.log(posts);
+  }, [length]);
+  */
 
   return (
     <div className="App">
       <Header />
-      <div class="list-group">
-        {/*<Suspense fallback={<h1>loading ...</h1>}>*/} {/* does not work */}
-          { posts.map((x) => <Post key={x.id} post={x} />) }
-        {/*</Suspense>*/}
-        <button onClick={() => {setLength(length + 10); setPosts([]);}} class="list-group-item list-group-item-action">Load more</button>
+      <div className="list-group list-group-flush">
+          { posts.sort((a, b) => (a.score < b.score) ? 1 : -1)
+                .map((x) => <Post key={x.id} post={x} />) }
+        <button onClick={() => {setLength(length + 10); setPosts([]);}} className="list-group-item list-group-item-action">Load more</button>
       </div>
     </div>
   );
@@ -36,12 +40,12 @@ function App() {
 function Post({ post }) {
   return (
     <div id="Post">
-      <a href={post.url} target="_blank" rel="noopener noreferrer" class="list-group-item list-group-item-action">
-        <div class="d-flex w-100 justify-content-between">
-          <span class="mb-1">{post.title}</span>
-          <span><a class="badge badge-primary badge-pill" href={"https://news.ycombinator.com/item?id=" + post.id}>{post.descendants}</a></span>
+      <a href={post.url} target="_blank" rel="noopener noreferrer" className="list-group-item list-group-item-action">
+        <div className="d-flex w-100 justify-content-between">
+          <span className="mb-1">{post.title}</span>
+          <span><a className="badge badge-primary badge-pill" href={"https://news.ycombinator.com/item?id=" + post.id}>{post.descendants}</a></span>
         </div>
-        <div class="d-flex w-100 justify-content-between">
+        <div className="d-flex w-100 justify-content-between">
           <small style={{color: 'grey'}}>{post.url && (new URL(post.url)).hostname}</small>
           <small>{moment.unix(post.time).fromNow()}</small>
         </div>
@@ -51,16 +55,16 @@ function Post({ post }) {
 }
 
 const Header = () =>
-  <nav class="navbar navbar-dark bg-primary">
-    <a class="navbar-brand" href="#">HN</a>
-    {/*<div class="navbar-nav  mr-auto">
-      <a class="nav-item nav-link" href="#">Top</a>
-      <a class="nav-item nav-link" href="#">New</a>
+  <nav className="navbar navbar-dark bg-primary">
+    <a className="navbar-brand" href="/">HN</a>
+    {/*<div className="navbar-nav  mr-auto">
+      <a className="nav-item nav-link" href="#">Top</a>
+      <a className="nav-item nav-link" href="#">New</a>
     </div>*/}
 
-    <form action="https://hn.algolia.com/" method="get" class="form-inline">
-      <input class="form-control mr-sm-2" type="search" id="q" name="q" placeholder="Search" aria-label="Search" />
-      {/*<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>*/}
+    <form action="https://hn.algolia.com/" method="get" className="form-inline">
+      <input className="form-control mr-sm-2" type="search" id="q" name="q" placeholder="Search" aria-label="Search" />
+      {/*<button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>*/}
     </form>
 
   </nav>
