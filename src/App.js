@@ -4,28 +4,30 @@ import moment from 'moment';
 
 function App() {
   const [posts, setPosts] = useState([]);
+  const [length, setLength] = useState(1);
 
   useEffect(() => {
     async function fetchData() {
+      
       const topStories = await axios.get('https://hacker-news.firebaseio.com/v0/topstories.json');
-      topStories.data.slice(0, 30).map(async (x) => {
+      topStories.data.slice(0, length).map(async (x) => {
         const res = await axios.get(`https://hacker-news.firebaseio.com/v0/item/${x}.json`);
         setPosts((p) => [...p, res.data]);
       });
     }
 
     fetchData();
-  }, []);
+  }, [length]);
+
 
   return (
     <div className="App">
       <Header />
       <div class="list-group">
         {/*<Suspense fallback={<h1>loading ...</h1>}>*/} {/* does not work */}
-          {
-            posts.map((x) => <Post key={x.id} post={x} />)
-          }
+          { posts.map((x) => <Post key={x.id} post={x} />) }
         {/*</Suspense>*/}
+        <button onClick={() => {setLength(length + 1); setPosts([]);}} class="list-group-item list-group-item-action">Load more</button>
       </div>
     </div>
   );
@@ -36,7 +38,7 @@ function Post({ post }) {
     <div id="Post">
       <a href={post.url} target="_blank" rel="noopener noreferrer" class="list-group-item list-group-item-action">
         <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">{post.title}</h5>
+          <span class="mb-1">{post.title}</span>
           <span><a class="badge badge-primary badge-pill" href={"https://news.ycombinator.com/item?id=" + post.id}>{post.descendants}</a></span>
         </div>
         <div class="d-flex w-100 justify-content-between">
