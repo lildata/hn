@@ -4,7 +4,7 @@ import moment from 'moment';
 
 function App() {
   const [posts, setPosts] = useState([]);
-  const [length, setLength] = useState(1);
+  const [length, setLength] = useState(10);
 
   useEffect(() => {
     async function fetchData() {
@@ -27,7 +27,7 @@ function App() {
         {/*<Suspense fallback={<h1>loading ...</h1>}>*/} {/* does not work */}
           { posts.map((x) => <Post key={x.id} post={x} />) }
         {/*</Suspense>*/}
-        <button onClick={() => {setLength(length + 1); setPosts([]);}} class="list-group-item list-group-item-action">Load more</button>
+        <button onClick={() => {setLength(length + 10); setPosts([]);}} class="list-group-item list-group-item-action">Load more</button>
       </div>
     </div>
   );
