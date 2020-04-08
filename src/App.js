@@ -1,6 +1,7 @@
 import React, { useState, useEffect/*, Suspense*/ } from 'react';
 import axios from 'axios';
 import moment from 'moment';
+//import Identicon from 'react-identicons';
 
 function App() {
   const [posts, setPosts] = useState([]);
@@ -41,6 +42,7 @@ function Post({ post }) {
   return (
     <div id="Post">
       <a href={post.url} target="_blank" rel="noopener noreferrer" className="list-group-item list-group-item-action">
+        {/*<Identicon size="30" string={post.url} />*/}
         <div className="d-flex w-100 justify-content-between">
           <span className="mb-1">{post.title}</span>
           <span><a className="badge badge-primary badge-pill" href={"https://news.ycombinator.com/item?id=" + post.id}>{post.descendants}</a></span>
